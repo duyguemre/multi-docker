@@ -4,7 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t duyguemre/multiserver -f ./server/Dockerfile ./server
+  - docker build -t duyguemre/react-test -f ./client/Dockerfile.dev ./client
+  
+script:
+  - docker run duyguemre/react-test npm test -- --converage
 
-scripts:
-  - docker run duyguemre/multiserver npm run test -- --coverage
+after_success:
+  - docker build -t duyguemre/multi-client -f ./client/Dockerfile ./client
+  - docker build -t duyguemre/multi-server -f ./client/Dockerfile ./server
+  - docker build -t duyguemre/multi-nginx -f ./client/Dockerfile ./nginx
+  - docker build -t duyguemre/multi-worker -f ./client/Dockerfile ./worker
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin  
+  #Take those images and push them to docker hub
+  - docker push duyguemre/multi-client
+  - docker push duyguemre/multi-server
+  - docker puch duyguemre/multi-nginx
+  - docker push duyguemre/multi-worker
