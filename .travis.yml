@@ -4,10 +4,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t duyguemre/react-test -f ./client/Dockerfile.dev ./client
+  #- docker build -t duyguemre/react-test -f ./client/Dockerfile.dev ./client
   
 scripts:
-  - docker run duyguemre/react-test npm test -- --converage
+  #- docker run duyguemre/react-test npm test -- --converage
 
 after_success:
   - docker build -t duyguemre/multi-client -f ./client/Dockerfile ./client
