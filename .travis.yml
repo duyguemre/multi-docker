@@ -3,11 +3,9 @@ sudo: required
 services:
   - docker
 
-  
+
 before_install:
-  
-scripts:
- 
-after_success:
   - docker build -t duyguemre/multi-client -f ./client/Dockerfile ./client
  
+scripts:
+   - docker run duyguemre/multi-client npm run test -- --coverage &
