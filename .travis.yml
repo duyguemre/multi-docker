@@ -5,7 +5,7 @@ services:
 
 
 before_install:
-  - docker build -t duyguemre/multi-server -f ./client/Dockerfile ./server
+  - docker build -t duyguemre/multi-server -f ./server/Dockerfile ./server
  
 scripts:
    - docker run duyguemre/multi-server npm run test -- --coverage &
